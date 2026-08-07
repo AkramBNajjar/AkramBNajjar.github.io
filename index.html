@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AK — Mechanical Engineer</title>
+<meta name="description" content="Mechanical engineer building automated hardware: motion control, machine HMIs, and the fixtures around them.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --enamel:#DCDFD9;
+  --enamel-deep:#C7CBC4;
+  --plate:#F2F3F0;
+  --ink:#171A17;
+  --ink-soft:#4A5049;
+  --grey:#8E938C;
+  --caution:#D9A400;
+  --oxide:#8A3524;
+  --rule:#B0B5AE;
+  --display:"Saira Condensed",Impact,sans-serif;
+  --body:"IBM Plex Sans",system-ui,sans-serif;
+  --data:"IBM Plex Mono",ui-monospace,monospace;
+  --gut:clamp(20px,5vw,64px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--enamel);color:var(--ink);
+  font-family:var(--body);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit}
+img{max-width:100%;display:block}
+.wrap{max-width:1120px;margin:0 auto;padding:0 var(--gut)}
+
+/* ---- tag: the riveted data-plate device used throughout ---- */
+.tag{
+  font-family:var(--data);font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-soft);
+}
+
+/* ---- masthead ---- */
+.mast{border-bottom:2px solid var(--ink);background:var(--enamel)}
+.mast-in{display:flex;flex-wrap:wrap;gap:16px;align-items:baseline;
+  justify-content:space-between;padding-block:18px}
+.mast-name{font-family:var(--display);font-weight:800;font-size:22px;
+  letter-spacing:.06em;text-transform:uppercase}
+.mast-nav{display:flex;gap:22px}
+.mast-nav a{text-decoration:none;border-bottom:1px solid transparent;padding-bottom:2px}
+.mast-nav a:hover,.mast-nav a:focus-visible{border-bottom-color:var(--caution)}
+
+/* ---- hero ---- */
+.hero{padding-block:clamp(56px,9vw,104px) clamp(40px,6vw,72px)}
+.hero h1{
+  font-family:var(--display);font-weight:800;
+  font-size:clamp(44px,9.5vw,116px);line-height:.92;
+  letter-spacing:-.005em;text-transform:uppercase;margin:0 0 26px;
+  max-width:16ch;
+}
+.hero h1 em{font-style:normal;color:var(--oxide)}
+.hero p{max-width:56ch;font-size:clamp(16px,1.6vw,19px);margin:0 0 40px;color:var(--ink-soft)}
+
+/* readout strip — echoes the encoder display on the gasket machine */
+.readout{
+  border:2px solid var(--ink);background:var(--ink);color:var(--enamel);
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:2px;
+}
+.readout div{background:var(--ink);padding:16px 18px}
+.readout dt{font-family:var(--data);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--grey);margin:0 0 6px}
+.readout dd{margin:0;font-family:var(--display);font-weight:800;
+  font-size:clamp(28px,4vw,42px);line-height:1;font-variant-numeric:tabular-nums}
+.readout dd span{font-size:.42em;letter-spacing:.1em;color:var(--caution);
+  margin-left:6px;vertical-align:.6em;font-family:var(--data);font-weight:500}
+
+/* ---- section frame ---- */
+.sec{padding-block:clamp(48px,7vw,88px);border-top:1px solid var(--rule)}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:36px}
+.sec-head h2{font-family:var(--display);font-weight:800;font-size:clamp(26px,3.4vw,38px);
+  letter-spacing:.04em;text-transform:uppercase;margin:0}
+.sec-head .tag{white-space:nowrap}
+.sec-head::after{content:"";flex:1;height:1px;background:var(--rule)}
+
+/* ---- project ---- */
+.proj{border-top:2px solid var(--ink);padding-top:26px;margin-bottom:56px}
+.proj:last-child{margin-bottom:0}
+.proj-top{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:baseline;
+  justify-content:space-between;margin-bottom:20px}
+.proj-top h3{font-family:var(--display);font-weight:800;
+  font-size:clamp(24px,3.2vw,34px);letter-spacing:.02em;
+  text-transform:uppercase;margin:0;max-width:22ch}
+.stamp{font-family:var(--data);font-size:11px;letter-spacing:.12em;
+  text-transform:uppercase;border:1px solid var(--ink);padding:4px 9px;white-space:nowrap}
+.stamp.live{background:var(--caution);border-color:var(--caution)}
+
+.proj-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);
+  gap:clamp(24px,4vw,48px);align-items:start}
+.proj-body p{margin:0 0 16px;max-width:60ch}
+.proj-body ul{margin:0;padding-left:0;list-style:none;max-width:60ch}
+.proj-body li{padding-left:20px;position:relative;margin-bottom:9px}
+.proj-body li::before{content:"";position:absolute;left:0;top:.62em;
+  width:9px;height:2px;background:var(--oxide)}
+
+/* the nameplate: field/value rows, like the plate bolted to a machine */
+.plate{background:var(--plate);border:2px solid var(--ink);padding:16px 18px}
+.plate dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:9px 16px}
+.plate dt{font-family:var(--data);font-size:10px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--grey);padding-top:2px}
+.plate dd{margin:0;font-family:var(--data);font-size:12.5px;line-height:1.45}
+
+figure{margin:22px 0 0}
+figure img{border:2px solid var(--ink);background:var(--enamel-deep);width:100%}
+figcaption{font-family:var(--data);font-size:11px;letter-spacing:.06em;
+  color:var(--ink-soft);margin-top:8px}
+.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.ph{aspect-ratio:4/3;border:2px dashed var(--rule);display:grid;place-items:center;
+  font-family:var(--data);font-size:11px;letter-spacing:.1em;color:var(--grey);
+  text-align:center;padding:12px;text-transform:uppercase}
+
+/* ---- capabilities ---- */
+.caps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:2px;
+  background:var(--rule);border:1px solid var(--rule)}
+.caps section{background:var(--enamel);padding:22px}
+.caps h3{font-family:var(--data);font-size:11px;letter-spacing:.15em;
+  text-transform:uppercase;margin:0 0 14px;color:var(--oxide)}
+.caps ul{margin:0;padding-left:0;list-style:none}
+.caps li{font-family:var(--data);font-size:12.5px;padding:5px 0;
+  border-bottom:1px solid var(--rule)}
+.caps li:last-child{border-bottom:0}
+
+/* ---- education / contact ---- */
+.edu{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px}
+.edu h3{font-family:var(--display);font-weight:800;font-size:21px;
+  text-transform:uppercase;letter-spacing:.03em;margin:0 0 6px}
+.edu .tag{display:block;margin-bottom:10px}
+.edu p{margin:0;color:var(--ink-soft)}
+
+.foot{background:var(--ink);color:var(--enamel);margin-top:clamp(48px,7vw,88px)}
+.foot .wrap{padding-block:clamp(48px,7vw,80px)}
+.foot h2{font-family:var(--display);font-weight:800;
+  font-size:clamp(34px,6vw,68px);line-height:1;text-transform:uppercase;
+  letter-spacing:.02em;margin:0 0 28px}
+.links{display:flex;flex-wrap:wrap;gap:10px 12px;margin-bottom:34px}
+.links a{font-family:var(--data);font-size:13px;letter-spacing:.08em;
+  text-transform:uppercase;text-decoration:none;border:1px solid var(--grey);
+  padding:11px 17px}
+.links a:hover,.links a:focus-visible{background:var(--caution);border-color:var(--caution);color:var(--ink)}
+.colophon{font-family:var(--data);font-size:11px;letter-spacing:.08em;color:var(--grey)}
+
+:focus-visible{outline:3px solid var(--caution);outline-offset:3px}
+
+@media (max-width:760px){
+  .proj-grid{grid-template-columns:1fr}
+  .mast-in{padding-block:14px}
+  .mast-nav{gap:16px;font-size:14px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <div class="wrap mast-in">
+    <div class="mast-name">AK</div>
+    <nav class="mast-nav tag" aria-label="Sections">
+      <a href="#work">Work</a>
+      <a href="#capabilities">Capabilities</a>
+      <a href="#background">Background</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="wrap hero">
+  <h1>I build the machines that <em>make the parts</em>.</h1>
+  <p>Mechanical engineering at UT Austin, with a graduate focus on controls and robotics. Most of my work sits where the mechanism meets the controller: stepper motion, encoder feedback, panel wiring, and an operator screen someone has to actually use on a production floor.</p>
+
+  <dl class="readout">
+    <div><dt>Machines built</dt><dd>2</dd></div>
+    <div><dt>Largest team led</dt><dd>18<span>eng</span></dd></div>
+    <div><dt>Cumulative GPA</dt><dd>3.9<span>/4.0</span></dd></div>
+    <div><dt>Available</dt><dd>2027<span>bs</span></dd></div>
+  </dl>
+</section>
+
+<section class="wrap sec" id="work">
+  <div class="sec-head">
+    <h2>Selected work</h2>
+    <span class="tag">04 entries</span>
+  </div>
+
+  <!-- ============ PROJECT 1 ============ -->
+  <article class="proj">
+    <div class="proj-top">
+      <h3>Automated RF gasket cutting machine</h3>
+      <span class="stamp live">Applied Materials · 2026</span>
+    </div>
+    <div class="proj-grid">
+      <div class="proj-body">
+        <p>RF gaskets were being cut to length by hand against a tape measure — slow, and the tolerance depended on who was doing it. I built a machine that feeds stock to a selected length and tells the operator when to cut.</p>
+        <ul>
+          <li>Operator picks a product from the HMI; the machine feeds stock while rotary encoders track actual fed length, then stops at target and signals ready to cut.</li>
+          <li>Wrote the motion firmware in Arduino C++ on a Mega with a terminal shield driving a NEMA 23 stepper.</li>
+          <li>Built the operator GUI in Python/Tkinter on a Raspberry Pi 5, sized to a 5&Prime; 1024&times;600 panel display.</li>
+          <li>Specified and wired the panel: stepper driver, DC supplies, terminal blocks.</li>
+        </ul>
+        <div class="shots" style="margin-top:22px">
+          <div class="ph">assets/gasket-01.jpg<br>machine, full view</div>
+          <div class="ph">assets/gasket-02.jpg<br>HMI screen</div>
+          <div class="ph">assets/gasket-03.jpg<br>control panel</div>
+        </div>
+      </div>
+      <div class="plate">
+        <dl>
+          <dt>Controller</dt><dd>Raspberry Pi 5 + Arduino Mega</dd>
+          <dt>Motion</dt><dd>NEMA 23 stepper, driver + DC supply</dd>
+          <dt>Feedback</dt><dd>Rotary encoders, length-based stop</dd>
+          <dt>HMI</dt><dd>Python / Tkinter, 1024&times;600</dd>
+          <dt>Firmware</dt><dd>Arduino C++</dd>
+          <dt>Cut</dt><dd>Manual, Dremel at the stop</dd>
+          <dt>Scope</dt><dd>Sole designer &mdash; mechanical, electrical, firmware, HMI</dd>
+        </dl>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ PROJECT 2 ============ -->
+  <article class="proj">
+    <div class="proj-top">
+      <h3>O-ring cleaning station</h3>
+      <span class="stamp live">Applied Materials · 2026</span>
+    </div>
+    <div class="proj-grid">
+      <div class="proj-body">
+        <p>A benchtop station that washes and dries O-rings in a repeatable cycle instead of by hand, built on industrial components so it could live on the floor and be serviced by the people using it.</p>
+        <ul>
+          <li>Programmed the cycle on an Arduino-based PLC in C++, driving stepper motion through the wash and dry stages.</li>
+          <li>Laid out the enclosure on DIN rail so every component is standard, labeled, and swappable.</li>
+          <li>Plumbed deionized water through an inline filter for the wash stage.</li>
+          <li>Dried with a DI air knife to avoid residue and static pickup on the seal surface.</li>
+        </ul>
+        <div class="shots" style="margin-top:22px">
+          <div class="ph">assets/oring-01.jpg<br>station, full view</div>
+          <div class="ph">assets/oring-02.jpg<br>DIN-rail enclosure</div>
+          <div class="ph">assets/oring-03.jpg<br>wash / dry stage</div>
+        </div>
+      </div>
+      <div class="plate">
+        <dl>
+          <dt>Controller</dt><dd>Arduino PLC, C++</dd>
+          <dt>Build</dt><dd>DIN-rail mounted components</dd>
+          <dt>Motion</dt><dd>Stepper motors</dd>
+          <dt>Fluid</dt><dd>Deionized water, inline filter</dd>
+          <dt>Dry</dt><dd>DI air knife</dd>
+          <dt>Scope</dt><dd>Controls, panel build, integration</dd>
+        </dl>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ PROJECT 3 ============ -->
+  <article class="proj">
+    <div class="proj-top">
+      <h3>Thermal sensor selection &amp; enclosure design</h3>
+      <span class="stamp">Lockheed Martin</span>
+    </div>
+    <div class="proj-grid">
+      <div class="proj-body">
+        <p>Ran an 18-engineer project to select a thermal sensor and design the housing around it, coordinating hardware, software/GUI, and integration subteams to a single delivery.</p>
+        <ul>
+          <li>Project manager: scope, schedule, and the interfaces between three subteams that each thought they owned the enclosure.</li>
+          <li>Drove the sensor trade study through to a selection the whole team could build against.</li>
+          <li>Created and signed off production SolidWorks documentation for F-35 training device components.</li>
+          <li>Loaded European-sourced drawings into EPDM and found a faster release path than the one in use.</li>
+        </ul>
+        <div class="shots" style="margin-top:22px">
+          <div class="ph">assets/lm-01.jpg<br>enclosure CAD</div>
+          <div class="ph">assets/lm-02.jpg<br>team / process</div>
+        </div>
+      </div>
+      <div class="plate">
+        <dl>
+          <dt>Role</dt><dd>Project manager, 18 engineers</dd>
+          <dt>Subteams</dt><dd>Hardware, software/GUI, integration</dd>
+          <dt>Deliverable</dt><dd>Sensor selection + enclosure housing</dd>
+          <dt>Tools</dt><dd>SolidWorks, EPDM</dd>
+          <dt>Also</dt><dd>Production drawing release, F-35 trainer</dd>
+        </dl>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ PROJECT 4 ============ -->
+  <article class="proj">
+    <div class="proj-top">
+      <h3>Heat sink design &amp; FEA study</h3>
+      <span class="stamp">Academic</span>
+    </div>
+    <div class="proj-grid">
+      <div class="proj-body">
+        <p>Modeled, analyzed, and machined a heat sink — the loop from CAD to FEA to a real part on the CNC, then back to the model with what the machining actually allowed.</p>
+        <ul>
+          <li>Parametric SolidWorks model driven by fin geometry.</li>
+          <li>FEA thermal study to compare fin configurations before committing to stock.</li>
+          <li>CNC-machined the final part and reconciled as-built against the model.</li>
+        </ul>
+        <div class="shots" style="margin-top:22px">
+          <div class="ph">assets/heatsink-01.jpg<br>FEA result</div>
+          <div class="ph">assets/heatsink-02.jpg<br>machined part</div>
+        </div>
+      </div>
+      <div class="plate">
+        <dl>
+          <dt>CAD</dt><dd>SolidWorks, parametric</dd>
+          <dt>Analysis</dt><dd>Thermal FEA, fin trade study</dd>
+          <dt>Manufacture</dt><dd>CNC</dd>
+        </dl>
+      </div>
+    </div>
+  </article>
+</section>
+
+<section class="wrap sec" id="capabilities">
+  <div class="sec-head">
+    <h2>Capabilities</h2>
+    <span class="tag">Hands-on</span>
+  </div>
+  <div class="caps">
+    <section>
+      <h3>Mechanical</h3>
+      <ul>
+        <li>SolidWorks &mdash; parts, assemblies, drawings</li>
+        <li>Production documentation &amp; release</li>
+        <li>EPDM / PDM workflows</li>
+        <li>Thermal &amp; structural FEA</li>
+        <li>CNC, fixturing, sheet metal</li>
+      </ul>
+    </section>
+    <section>
+      <h3>Controls &amp; electrical</h3>
+      <ul>
+        <li>Arduino C++ firmware</li>
+        <li>Stepper drives, NEMA 23</li>
+        <li>Rotary encoder feedback</li>
+        <li>DIN-rail panel layout &amp; wiring</li>
+        <li>Raspberry Pi integration</li>
+      </ul>
+    </section>
+    <section>
+      <h3>Software</h3>
+      <ul>
+        <li>Python &mdash; Tkinter HMIs</li>
+        <li>FastAPI + PostgreSQL</li>
+        <li>JavaScript front ends</li>
+        <li>Internal tooling, deployed company-wide</li>
+      </ul>
+    </section>
+  </div>
+</section>
+
+<section class="wrap sec" id="background">
+  <div class="sec-head">
+    <h2>Background</h2>
+    <span class="tag">Austin, TX</span>
+  </div>
+  <div class="edu">
+    <div>
+      <h3>UT Austin</h3>
+      <span class="tag">BS Mechanical Engineering &mdash; May 2027</span>
+      <p>Minor in aerospace engineering. Cumulative GPA 3.9/4.0.</p>
+    </div>
+    <div>
+      <h3>UT Austin</h3>
+      <span class="tag">MS Mechanical Engineering &mdash; May 2028</span>
+      <p>Controls, robotics, and automation, with coursework in machine learning.</p>
+    </div>
+    <div>
+      <h3>Research</h3>
+      <span class="tag">DoD-funded &mdash; MEMS / nanofabrication</span>
+      <p>Nanoscale fabrication and device work in a cleanroom environment.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot" id="contact">
+  <div class="wrap">
+    <h2>Let's talk<br>hardware.</h2>
+    <div class="links">
+      <a href="mailto:YOUR@EMAIL.COM">Email</a>
+      <a href="https://linkedin.com/in/YOURHANDLE">LinkedIn</a>
+      <a href="https://github.com/YOURHANDLE">GitHub</a>
+      <a href="assets/resume.pdf">Résumé (PDF)</a>
+    </div>
+    <p class="colophon">Applied Materials project details published with employer approval. Built by hand — no framework.</p>
+  </div>
+</footer>
+
+</body>
+</html>
